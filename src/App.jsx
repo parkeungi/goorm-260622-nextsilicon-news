@@ -7,6 +7,8 @@ import InsightCard from "./components/InsightCard/InsightCard";
 import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import { useNewsBriefing } from "./hooks/useNewsBriefing";
+import { useAuth } from "./hooks/useAuth";
+import AuthModal from "./components/AuthModal/AuthModal";
 import Footer from "./components/Footer/Footer";
 import styles from "./App.module.css";
 
@@ -14,6 +16,9 @@ export default function App() {
   const [userProfile, setUserProfile] = useState("business");
   const [selectedLLM, setSelectedLLM] = useState("claude");
   const [insightMeta, setInsightMeta] = useState(null);
+
+  const { user, signUp, signIn, signOut } = useAuth();
+  const [authMode, setAuthMode] = useState(null); // null | "login" | "signup"
 
   const { articles, insight, isLoadingNews, isLoadingLLM, error, runBriefing } =
     useNewsBriefing();
@@ -53,7 +58,20 @@ export default function App() {
 
   return (
     <div className={styles.app}>
-      <Header />
+      <Header
+        user={user}
+        onOpenLogin={() => setAuthMode("login")}
+        onOpenSignup={() => setAuthMode("signup")}
+        onLogout={signOut}
+      />
+      {authMode && (
+        <AuthModal
+          mode={authMode}
+          onClose={() => setAuthMode(null)}
+          signUp={signUp}
+          signIn={signIn}
+        />
+      )}
       <main className={styles.main}>
         <div className={styles.container}>
           <section className={styles.controls}>
