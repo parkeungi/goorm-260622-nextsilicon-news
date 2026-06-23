@@ -1,9 +1,8 @@
-// 브라우저에서 newsapi.org로 직접 요청하면 CORS에 막히므로,
-// 개발 환경에서는 Vite 개발 서버의 프록시(/proxy/newsapi)를 경유한다.
-// (LLM API 3종과 동일한 방식 — vite.config.js의 server.proxy 참고)
-const BASE_URL = import.meta.env.DEV
-  ? "/proxy/newsapi/v2/everything"
-  : "https://newsapi.org/v2/everything";
+// 브라우저에서 newsapi.org로 직접 요청하면 CORS에 막히므로 항상 프록시를 경유한다.
+// - 개발: Vite 개발 서버 프록시 (vite.config.js의 server.proxy)
+// - 배포: Vercel rewrites (vercel.json)
+// LLM API 3종(/proxy/anthropic, /proxy/openai, /proxy/gemini)과 동일한 방식.
+const BASE_URL = "/proxy/newsapi/v2/everything";
 
 export async function fetchNews(query, options = {}) {
   const {

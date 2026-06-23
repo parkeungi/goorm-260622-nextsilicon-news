@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/proxy/newsapi/:path*",
+      "destination": "https://newsapi.org/:path*"
+    },
+    {
+      "source": "/proxy/anthropic/:path*",
+      "destination": "https://api.anthropic.com/:path*"
+    },
+    {
+      "source": "/proxy/openai/:path*",
+      "destination": "https://api.openai.com/:path*"
+    },
+    {
+      "source": "/proxy/gemini/:path*",
+      "destination": "https://generativelanguage.googleapis.com/:path*"
+    }
+  ]
+}
