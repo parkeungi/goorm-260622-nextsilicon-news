@@ -7,6 +7,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
+      '/proxy/newsapi': {
+        target: 'https://newsapi.org',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/proxy\/newsapi/, ''),
+      },
       '/proxy/anthropic': {
         target: 'https://api.anthropic.com',
         changeOrigin: true,
